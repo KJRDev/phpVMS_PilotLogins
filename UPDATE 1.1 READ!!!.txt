@@ -1,0 +1,13 @@
+There is an SQL update in Version 1.1.
+
+You will be needing to rename your pilot login tables. This is the simple way without losing your data.
+
+======BACK UP YOUR DATABASE FIRST BEFORE YOU ATTEMPT TO DO IT! I WILL NOT BE REPSONSBILE FOR DATA LOST======
+
+Run this SQL in phpMyAdmin.....
+
+RENAME TABLE `=YOUDB=`.`phpvms_pilotlogins` TO `=YOUDB=`.`pilotlogins` ;
+
+With the word =YOUDB= , replace it with your phpvms database name.
+
+Then, update the files!

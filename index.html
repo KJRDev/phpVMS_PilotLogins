@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PilotLogins Version 1.1 - Functions</title>
+</head>
+
+<body>
+<h2>PilotLogins Version 1.1 - Functions</h2>
+<br />
+<p>Here are the examples of functions that you can use with your virtual airlines.</p>
+<br />
+<h4>To Parse the pilot's last pilot login</h4>
+<p>Add this code into Profile.php, go to "$this->set('pilot_hours', $totalhours);" and then add after the following....</p>
+<textarea name="" cols="80" rows="10" readonly="readonly">
+$this->set('lastlogin', PilotLoginsData::getLastLogin($pilot->pilotid));
+</textarea>
+<p>Then if you want to parse the pilt's last ip logged, add this code into your profile_main.tpl</p>
+<textarea name="" cols="80" rows="10" readonly="readonly">           	<?php
+			if($lastlogin) { ?>
+				<?php echo $lastlogin->ip; ?>
+				
+			<?php
+			}
+			?>
+</textarea>
+<br />
+<p>Then if you want to get the number of logins for the pilot, add this code into your profile_main.tpl</p>
+<textarea name="" cols="80" rows="10" readonly="readonly">   
+<?php echo PilotLoginsData::getLoginCount($pilot->pilotid); ?>
+</textarea>
+<br />
+<br />
+<h4>To display a list of pilot logins in the public profile area with permission needed Add in pilot_public_profile.tpl. "mark1million's Request"</h4>
+<textarea name="" cols="80" rows="10" readonly="readonly">   
+<?php
+if(PilotGroups::group_has_perm(Auth::$usergroups, FULL_ADMIN)) 
+{
+?>
+<strong>Pilot Logins History</strong>
+<?php
+if(!$pilotlogins) 
+{
+	echo '<p>The pilot has not logged in yet!</p>';
+	return;
+}
+?>
+
+<table id="tabledlist" class="tablesorter">
+<thead>
+<tr>
+	<th>IP</th>
+    <th>Date</th>
+</tr>
+</thead>
+<tbody>
+<?php
+foreach($pilotlogins as $login) {
+?>
+<tr>
+	<td align="center"><?php echo $login->ip; ?></td>
+    <td align="center">
+    <?php echo $login->datestamp; ?>
+    
+    </td>
+    	<?php
+	}
+	?>
+    </tr>
+    </tbody>
+    </table>
+
+    <?php
+}
+?>
+</tbody>
+</table>
+
+</textarea>
+<br />
+<h4>Add this to get the login list for the pilot profile after the following code "$this->set('allawards', AwardsData::getPilotAwards($pilot->pilotid));" in Profile.php
+
+<textarea name="" cols="80" rows="10" readonly="readonly">   
+$this->set('pilotlogins', PilotLoginsData::get_pilotlogin($pilotid));
+</textarea>
+
+</body>
+</html>
